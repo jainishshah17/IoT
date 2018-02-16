@@ -1,2 +1,4 @@
 # IoT
-Internet of things demo
+Internet of Things demo
+
+[RaspberryPi](images/raspberry-pi-logo.png)

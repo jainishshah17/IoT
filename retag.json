@@ -1,0 +1,7 @@
+{
+  "targetRepo" : "TARGETREPO",
+  "dockerRepository" : "node-version-pi",
+  "tag" : "@",
+  "targetTag" : "latest",
+  "copy": true
+}

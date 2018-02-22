@@ -6,6 +6,9 @@ WORKDIR /usr/src/app
 # Bundle app source
 COPY . /usr/src/app
 
+RUN pwd
+
+RUN ls -alt
 # Install app dependencies
 RUN npm install
 

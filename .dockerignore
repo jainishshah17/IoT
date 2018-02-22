@@ -1,0 +1,7 @@
+node_modules
+.idea
+Jenkinsfile
+Dockerfile
+README.md
+retag.json
+package-lock.json

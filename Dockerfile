@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install app dependencies
-RUN /bin/sh -c "npm install"
+RUN npm install
 
 EXPOSE 3000
 

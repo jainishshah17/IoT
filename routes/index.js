@@ -1,5 +1,4 @@
 var express = require('express');
-var sense = require("sense-hat-led").sync;
 var router = express.Router();
 // var Hue = require('philips-hue');
 // var hue = new Hue();
@@ -7,12 +6,6 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-
-
-    for (var i = 10; i > 0; i--){
-        sense.showLetter(i.toString());
-        sense.sleep(0.5);
-    }
     // console.log("Running Hue APIs");
     // hue.getBridges()
     //     .then(function(bridges){

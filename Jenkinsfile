@@ -65,6 +65,19 @@ node {
             reTagLatest (SOURCE_REPO)
             reTagLatest (PROMOTE_REPO)
         }
+
+      //Publish docker image to Bintray
+      stage ('Distribute') {
+            def distributionConfig = [
+                'buildName'             : env.JOB_NAME,
+                'buildNumber'           : env.BUILD_NUMBER,
+                'targetRepo'            : DIST_REPO,
+                'publish'               : true,
+                'overrideExistingFiles' : false,
+                "sourceRepos"           : ["docker-prod-local"]
+            ]
+            rtServer.distribute distributionConfig
+      }
 }
 
 def testApp (tag) {

@@ -74,7 +74,7 @@ node {
                 'targetRepo'            : DIST_REPO,
                 'publish'               : true,
                 'overrideExistingFiles' : false,
-                "sourceRepos"           : [ ${PROMOTE_REPO} ]
+                "sourceRepos"           : [ PROMOTE_REPO ]
             ]
             rtServer.distribute distributionConfig
       }

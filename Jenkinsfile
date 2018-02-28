@@ -74,7 +74,7 @@ node {
                 'targetRepo'            : DIST_REPO,
                 'publish'               : true,
                 'overrideExistingFiles' : false,
-                "sourceRepos"           : ["docker-prod-local"]
+                "sourceRepos"           : [ "${PROMOTE_REPO}" ]
             ]
             rtServer.distribute distributionConfig
       }

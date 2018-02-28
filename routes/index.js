@@ -6,7 +6,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-    // console.log("Running Hue APIs");
+    console.log("Running Hue APIs");
     // hue.getBridges()
     //     .then(function(bridges){
     //         console.log(bridges);

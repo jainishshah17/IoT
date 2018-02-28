@@ -1,7 +1,5 @@
 FROM resin/raspberry-pi-alpine-node
 
-RUN [ "cross-build-start" ]
-
 # Enable OpenRC
 ENV INITSYSTEM on
 

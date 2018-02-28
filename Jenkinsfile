@@ -71,10 +71,7 @@ node {
             def distributionConfig = [
                 'buildName'             : env.JOB_NAME,
                 'buildNumber'           : env.BUILD_NUMBER,
-                'targetRepo'            : DIST_REPO,
-                'publish'               : true,
-                'overrideExistingFiles' : false,
-                "sourceRepos"           : [ PROMOTE_REPO ]
+                'targetRepo'            : DIST_REPO
             ]
             rtServer.distribute distributionConfig
       }

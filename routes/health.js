@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET Health Check. */
 router.get('/', function(req, res, next) {
-    res.statusCode(200);
+    res.sendStatus(200);
 });
 
 module.exports = router;

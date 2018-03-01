@@ -67,14 +67,14 @@ node {
         }
 
       //Publish docker image to Bintray
-      //stage ('Distribute') {
-      //      def distributionConfig = [
-      //          'buildName'             : env.JOB_NAME,
-      //          'buildNumber'           : env.BUILD_NUMBER,
-      //          'targetRepo'            : DIST_REPO
-      //      ]
-      //      rtServer.distribute distributionConfig
-      //}
+      stage ('Distribute') {
+            def distributionConfig = [
+                'buildName'             : env.JOB_NAME,
+                'buildNumber'           : env.BUILD_NUMBER,
+                'targetRepo'            : DIST_REPO
+            ]
+            rtServer.distribute distributionConfig
+      }
 }
 
 def testApp (tag) {

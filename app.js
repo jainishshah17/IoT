@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var light = require('./routes/light');
 var health = require('./routes/health');
+var hue = require('./routes/hue');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/ping', health);
+app.use(hue);
 app.use(light);
 
 // catch 404 and forward to error handler

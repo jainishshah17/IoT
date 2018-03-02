@@ -19,6 +19,7 @@ node {
             buildInfo = rtDocker.push(tagDockerApp, REPO, buildInfo)
             println "Docker Buildinfo"
             rtServer.publishBuildInfo buildInfo
+            sh 'docker rmi '+tagDockerApp+' || true'
      }
 
     //Test docker image

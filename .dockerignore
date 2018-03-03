@@ -5,4 +5,4 @@ Dockerfile
 README.md
 retag.json
 package-lock.json
-docker-compose.yml
+bridge.json

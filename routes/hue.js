@@ -1,51 +1,29 @@
 var express = require('express');
 var router = express.Router();
 var Hue = require('philips-hue');
-var bridgeInfo = require('../bridge.json')
+var bridgeInfo = require('../bridge.json');
+var sense = require("sense-hat-led").sync;
 var hue = new Hue();
+var i = 0;
 
-light();
-function light() {
+ChangeColor();
+function ChangeColor() {
     console.log("Running Hue APIs");
+    (i <= 65280) ? i = i + 2000 : i = 0;
     hue.bridge = bridgeInfo.bridge.ip;
     hue.username = bridgeInfo.bridge.username;
     console.log("Light On");
     hue.light(4).on();
-    var state = {bri: 200, sat: 120, hue: 50000};
-
+    console.log("Hue : " + i);
+    var state = {bri: 50, sat: 120, hue: i};
+    sense.showMessage(i.toString(), 0.1, [124, 252, 0]);
+    sense.clear();
     hue.light(4).setState(state).then(console.log).catch(console.error);
+    setTimeout(everyMinute, 3000);
+}
 
-    hue.light(4).setState({effect: "colorloop"});
-
-    hue.light(4).setState({alert: "lselect"});
-
-
-    console.log("Light Off");
-    hue.light(4).off();
-    // hue.getBridges()
-    //     .then(function (bridges) {
-    //         console.log(bridges);
-    //         var bridge = bridges[0]; // use 1st bridge
-    //         console.log("bridge: " + bridge);
-    //         return hue.auth(bridge);
-    //     })
-    //     .then(function (username) {
-    //         console.log("username: " + username);
-    //         var light = hue.light(4);
-    //
-    //         light.on().then(console.log).catch(console.error);
-    //         console.log("Light On");
-    //         hue.light(4).on();
-    //         console.log("Light Off");
-    //         hue.light(4).off();
-    //         //     // controll Hue lights
-    //         //     hue.light(4).on();
-    //         //     hue.light(4).off();
-    //         //     hue.light(4).setState({effect: "colorloop"});
-    //     })
-    //     .catch(function (err) {
-    //         console.error(err.stack || err);
-    //     });
+function everyMinute() {
+    ChangeColor();
 }
 
 module.exports = router;

@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
 
         if((username == cred.username) && (password == cred.password)) {   // Is the username/password correct?
             cmd.get(
-                'bash ../update.sh',
+                'bash update.sh',
                 function(err, data, stderr){
                     console.log('Running update.sh : ',data);
                 });

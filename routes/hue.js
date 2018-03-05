@@ -12,8 +12,8 @@ function ChangeColor() {
     (i <= 65280) ? i = i + 2000 : i = 0;
     hue.bridge = bridgeInfo.bridge.ip;
     hue.username = bridgeInfo.bridge.username;
-    console.log("Light On");
-    hue.light(4).on();
+    // console.log("Light On");
+    // hue.light(4).on();
     console.log("Hue : " + i);
     var state = {bri: 50, sat: 120, hue: i};
     sense.showMessage(i.toString(), 0.1, [124, 252, 0]);

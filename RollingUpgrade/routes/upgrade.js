@@ -4,9 +4,11 @@ var cmd = require('node-cmd');
 var cred = require('../cred.json');
 
 /*  Upgrade  */
-router.post('/', function(req, res, next) {
+router.post('/:version', function(req, res, next) {
     var auth = req.headers['authorization'];  // auth is in base64(username:password)  so we need to decode the base64
     // console.log("Authorization Header is: ", auth);
+    var version;
+    (req.params.version) ? version = req.params.version : version = "latest";
 
     if(!auth) {
         res.statusCode = 401;
@@ -28,9 +30,9 @@ router.post('/', function(req, res, next) {
 
         if((username == cred.username) && (password == cred.password)) {   // Is the username/password correct?
             cmd.get(
-                'bash update.sh',
+                'bash update.sh ' + version,
                 function(err, data, stderr){
-                    console.log('Running update.sh : ',data);
+                    console.log('Running update.sh ' + version, data);
                 });
             res.sendStatus(200);  // OK
             // res.end('<html><body>Congratulations you just hax0rd teh Gibson!</body></html>');

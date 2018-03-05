@@ -4,11 +4,11 @@ var cmd = require('node-cmd');
 var cred = require('../cred.json');
 
 /*  Upgrade  */
-router.post('/:version', function(req, res, next) {
+router.post('/', function(req, res, next) {
     var auth = req.headers['authorization'];  // auth is in base64(username:password)  so we need to decode the base64
     // console.log("Authorization Header is: ", auth);
     var version;
-    (req.params.version) ? version = req.params.version : version = "latest";
+    (req.param('version')) ? version = req.param('version') : version = "latest";
 
     if(!auth) {
         res.statusCode = 401;
@@ -42,6 +42,8 @@ router.post('/:version', function(req, res, next) {
             res.sendStatus(401); // Force them to retry authentication
             // res.end('<html><body>You shall not pass</body></html>');
         }
+    } else {
+        req.sendStatus(400);
     }
 });
 

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "forever start -l forever.log -o out.log -e err.log bin/www",
+    "start": "forever start  -a -l forever.log -o out.log -e err.log bin/www",
     "stop": "forever stop ./bin/www"
   },
   "dependencies": {

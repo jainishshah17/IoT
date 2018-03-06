@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var cmd = require('node-cmd');
+var sense = require("sense-hat-led").sync;
 var cred = require('../cred.json');
 
 /*  Upgrade  */
@@ -29,13 +30,13 @@ router.post('/', function(req, res, next) {
         var password = creds[1];
 
         if((username == cred.username) && (password == cred.password)) {   // Is the username/password correct?
+            sense.clear(255,0,0);
             cmd.get(
                 'bash update.sh ' + version,
                 function(err, data, stderr){
                     console.log('Running update.sh ' + version, data);
                 });
             res.sendStatus(200);  // OK
-            // res.end('<html><body>Congratulations you just hax0rd teh Gibson!</body></html>');
         }
         else {
             res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');

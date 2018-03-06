@@ -30,7 +30,7 @@ router.post('/', function(req, res, next) {
         var password = creds[1];
 
         if((username == cred.username) && (password == cred.password)) {   // Is the username/password correct?
-            sense.clear(255,0,0);
+            sense.clear(255, 0, 0);
             cmd.get(
                 'bash update.sh ' + version,
                 function(err, data, stderr){

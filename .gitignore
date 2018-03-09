@@ -9,6 +9,7 @@ RollingUpgrade/node_modules
 RollingUpgrade/cred.json
 RollingUpgrade/*.log
 # Runtime data
+.idea
 pids
 *.pid
 *.seed

@@ -35,7 +35,7 @@ router.post('/', function(req, res, next) {
             var promise = twilio.messages.create({
                 from: '+14086178718',
                 to: '+16693331498',
-                body: 'New version :'+ version +' is released do you want to update your device?'
+                body: 'New version : '+ version +' is released do you want to update your device? Reply with YES or NO'
             });
             promise.then(function(message) {
                 console.log('Created message using promises');
@@ -56,9 +56,9 @@ router.post('/', function(req, res, next) {
 
 router.post('/message', function(req, res, next) {
     var message = req.body.Body;
-    console.log("Version is ______----->>" + version);
+    console.log("Version is" + version);
     if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' ){
-        console.log("Triggering upgrade");
+        console.log("Upgrading to version : " + version);
         sense.clear(255, 0, 0);
         cmd.get(
             'bash update.sh ' + version,

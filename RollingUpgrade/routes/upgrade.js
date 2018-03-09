@@ -74,7 +74,6 @@ function flashRed(){
     sense.clear([135,206,235]);
     sense.sleep(0.7);
     sense.clear();
-    flashRed();
 }
 
 module.exports = router;

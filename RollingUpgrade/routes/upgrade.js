@@ -4,12 +4,12 @@ var cmd = require('node-cmd');
 var sense = require("sense-hat-led").sync;
 var cred = require('../cred.json');
 var twilio = require('twilio')(cred.twilio.accountSid, cred.twilio.authToken);
+var version = "latest";
 
 /*  Upgrade  */
 router.post('/', function(req, res, next) {
     var auth = req.headers['authorization'];  // auth is in base64(username:password)  so we need to decode the base64
     // console.log("Authorization Header is: ", auth);
-    var version;
     (req.param('version')) ? version = req.param('version') : version = "latest";
 
     if(!auth) {
@@ -51,6 +51,22 @@ router.post('/', function(req, res, next) {
         }
     } else {
         req.sendStatus(400);
+    }
+});
+
+router.post('/message', function(req, res, next) {
+    var message = req.body.Body;
+    console.log("Version is ______----->>" + version);
+    if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' ){
+        console.log("Triggering upgrade");
+        sense.clear(255, 0, 0);
+        cmd.get(
+            'bash update.sh ' + version,
+            function(err, data, stderr){
+                console.log('Running update.sh ' + version, data);
+            });
+        res.sendStatus(200);
+        sense.clear();
     }
 });
 

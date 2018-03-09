@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 *-lock.json
 RollingUpgrade/node_modules
-
+RollingUpgrade/cred.json
+RollingUpgrade/*.log
 # Runtime data
 pids
 *.pid

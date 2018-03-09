@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var cmd = require('node-cmd');
 var sense = require("sense-hat-led").sync;
+var accountSid = 'ACc73f715dc0c92fcb6d4adb4b34861bb1'; // Your Account SID from www.twilio.com/console
+var authToken = '742fc757ed96aabfcdcfa5b236021304';   // Your Auth Token from www.twilio.com/console
+var twilio = require('twilio')(accountSid, authToken);
 var cred = require('../cred.json');
 
 /*  Upgrade  */
@@ -31,12 +34,16 @@ router.post('/', function(req, res, next) {
 
         if((username == cred.username) && (password == cred.password)) {   // Is the username/password correct?
             sense.clear(255, 0, 0);
-            cmd.get(
-                'bash update.sh ' + version,
-                function(err, data, stderr){
-                    console.log('Running update.sh ' + version, data);
-                });
-            res.sendStatus(200);  // OK
+            var promise = twilio.messages.create({
+                from: '+14086178718',
+                to: '+16693331498',
+                body: 'New version is released do you want to update your device?'
+            });
+            promise.then(function(message) {
+                console.log('Created message using promises');
+                console.log(message.sid);
+            });
+            res.sendStatus(200);
         }
         else {
             res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');

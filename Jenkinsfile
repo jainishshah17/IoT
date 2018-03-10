@@ -83,15 +83,15 @@ node {
 def testApp (tag) {
     docker.image(tag).withRun('-p 3000:3000') {c ->
         sleep 10
-        //def stdout = sh(script: 'curl "http://localhost:3000/"', returnStdout: true)
-        //if (stdout.contains(" ")) {
+        def stdout = sh(script: 'curl "http://localhost:3000/ping"', returnStdout: true)
+        if (stdout.contains(" ")) {
           //  println "*** Passed Test: " + stdout
             println "*** Passed Test"
             return true
-       // } else {
-        //    println "*** Failed Test: " + stdout
-         //   return false
-       // }
+        } else {
+            println "*** Failed Test: " + stdout
+            return false
+        }
     }
 }
 

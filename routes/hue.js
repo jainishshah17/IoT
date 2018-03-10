@@ -16,10 +16,19 @@ function ChangeColor() {
     // hue.light(4).on();
     console.log("Hue : " + i);
     var state = {bri: 50, sat: 120, hue: i};
-    sense.showMessage(i.toString(), 0.1, [124, 252, 0]);
-    sense.clear();
-    hue.light(4).setState(state).then(console.log).catch(console.error);
-    setTimeout(everyMinute, 3000);
+    hue.getLights()
+        .then(function (lights) {
+            for (light in lights){
+                // hue.light(light).setState({alert: "lselect"});
+                // sense.clear(i.toString(), 0.1, [124, 252, 0]);
+                // sense.clear();
+                hue.light(light).setState(state).then(console.log).catch(console.error);
+                // hue.light(4).setState({effect: "colorloop"});
+            }
+        }).catch(function (err) {
+        console.error(err.stack || err);
+        setTimeout(everyMinute, 1000);
+    });
 }
 
 function everyMinute() {

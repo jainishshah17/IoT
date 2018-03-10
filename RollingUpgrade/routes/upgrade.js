@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
         var password = creds[1];
 
         if((username == cred.auth.username) && (password == cred.auth.password)) {   // Is the username/password correct?
-            flashRed();
+            sense.clear([135,206,235]);
             var promise = twilio.messages.create({
                 from: '+14086178718',
                 to: '+16693331498',
@@ -59,7 +59,7 @@ router.post('/message', function(req, res, next) {
     console.log("Version is" + version);
     if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' ){
         console.log("Upgrading to version : " + version);
-        sense.clear(255, 0, 0);
+        sense.clear([255, 0, 0]);
         cmd.get(
             'bash update.sh ' + version,
             function(err, data, stderr){
@@ -69,11 +69,5 @@ router.post('/message', function(req, res, next) {
         sense.clear();
     }
 });
-
-function flashRed(){
-    sense.clear([135,206,235]);
-    sense.sleep(0.7);
-    sense.clear();
-}
 
 module.exports = router;

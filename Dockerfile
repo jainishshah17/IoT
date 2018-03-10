@@ -15,6 +15,7 @@ ENV PORT 3000
 # Install app dependencies
 RUN npm install
 
+RUN [ "cross-build-end" ]
 EXPOSE 3000
 
 CMD [ "npm", "start" ]

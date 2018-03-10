@@ -56,17 +56,22 @@ router.post('/', function(req, res, next) {
 
 router.post('/message', function(req, res, next) {
     var message = req.body.Body;
-    console.log("Version is" + version);
     if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' ){
-        console.log("Upgrading to version : " + version);
         sense.clear([255, 0, 0]);
-        cmd.get(
+        if(version){
+            console.log("Upgrading to version : " + version);
+            cmd.get(
             'bash update.sh ' + version,
             function(err, data, stderr){
                 console.log('Running update.sh ' + version, data);
             });
-        res.sendStatus(200);
-        sense.clear();
+            res.sendStatus(200);
+            sense.clear();
+        }
+        else{
+            console.log("Version is not defined");
+            res.sendStatus(500);
+        }
     }
 });
 

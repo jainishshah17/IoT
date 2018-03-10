@@ -27,8 +27,8 @@ function ChangeColor() {
             }
         }).catch(function (err) {
         console.error(err.stack || err);
-        setTimeout(everyMinute, 1000);
-    });
+        });
+    setTimeout(everyMinute, 1000);
 }
 
 function everyMinute() {

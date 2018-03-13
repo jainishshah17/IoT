@@ -68,16 +68,9 @@ node {
         }
 
       //Publish docker image to Bintray
-      //stage ('Distribute') {
-      //      def distributionConfig = [
-      //          'buildName'             : env.JOB_NAME,
-      //          'buildNumber'           : env.BUILD_NUMBER,
-      //          'targetRepo'            : DIST_REPO,
-      //          'overrideExistingFiles' : true,
-      //          'async'                 : true
-      //      ]
-      //      rtServer.distribute distributionConfig
-      //}
+      stage ('Distribute') {
+            distributeDocker()
+       }
 }
 
 def testApp (tag) {
@@ -120,6 +113,19 @@ def updateProperty (property) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X PUT " + SERVER_URL
             def updatePropStr = curlString +  "/api/storage/${SOURCE_REPO}/docker-app/${env.BUILD_NUMBER}?properties=${property}"
+            println "Curl String is " + updatePropStr
+            sh updatePropStr
+     }
+}
+
+def distributeDocker () {
+    def DIST_IMAGE = "${PROMOTE_REPO}/node-version-pi:${env.BUILD_NUMBER}"
+    println 'DIST_IMAGE' + DIST_IMAGE
+    sh 'sed -E "s/DIST_REPO/${DIST_REPO}/" distribution.json > dist_out.json'
+    sh 'sed -E "s/PROMOTE_REPO/${DIST_IMAGE}/" dist_out.json > distribution_out.json'
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + SERVER_URL
+            def updatePropStr = curlString +  "/api/distribute" -X POST -H 'Content-Type: application/json' -T distribution_out.json"
             println "Curl String is " + updatePropStr
             sh updatePropStr
      }

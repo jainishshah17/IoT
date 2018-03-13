@@ -125,7 +125,7 @@ def distributeDocker () {
     sh 'sed -E "s/PROMOTE_REPO/${DIST_IMAGE}/" dist_out.json > distribution_out.json'
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + SERVER_URL
-            def updatePropStr = curlString +  "/api/distribute" -X POST -H 'Content-Type: application/json' -T distribution_out.json"
+            def updatePropStr = curlString +  "/api/distribute -H 'Content-Type: application/json' -T distribution_out.json"
             println "Curl String is " + updatePropStr
             sh updatePropStr
      }

@@ -120,8 +120,6 @@ def updateProperty (property) {
 
 def distributeDocker () {
     def DIST_IMAGE = "${PROMOTE_REPO}/node-version-pi:${env.BUILD_NUMBER}"
-    sh 'pwd'
-    sh 'ls -alt'
     println 'DIST_IMAGE is : ' + DIST_IMAGE
     sh 'sed -E "s/DIST_REPO/${DIST_REPO}/" distribute.json > dist_out.json'
     sh 'sed -E "s/PROMOTE_REPO/${DIST_IMAGE}/" dist_out.json > distribution_out.json'

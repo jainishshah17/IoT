@@ -56,7 +56,7 @@ router.post('/', function(req, res, next) {
 
 router.post('/message', function(req, res, next) {
     var message = req.body.Body;
-    if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' ){
+    if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' || message === 'YES'){
         sense.clear([255, 0, 0]);
         if(version){
             console.log("Upgrading to version : " + version);
@@ -64,9 +64,15 @@ router.post('/message', function(req, res, next) {
             'bash update.sh ' + version,
             function(err, data, stderr){
                 console.log('Running update.sh ' + version, data);
+                if(data && data.includes("OK")){
+                    console.log("Done testing version : " + version);
+                    sense.clear();
+                    res.sendStatus(200);
+                }else {
+                    console.log('Error: ', stderr);
+                    res.sendStatus(500);
+                }
             });
-            res.sendStatus(200);
-            sense.clear();
         }
         else{
             console.log("Version is not defined");
@@ -77,7 +83,7 @@ router.post('/message', function(req, res, next) {
 
 function flashBlueLight() {
     sense.clear([135,206,235]);
-    setTimeout(flashBlueLight, 5000);
+    setTimeout(flashBlueLight, 2000);
 }
 
 module.exports = router;

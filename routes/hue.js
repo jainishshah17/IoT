@@ -9,7 +9,7 @@ var i = 0;
 ChangeColor();
 function ChangeColor() {
     console.log("Running Hue APIs");
-    (i <= 65280) ? i = i + 7000 : i = 0;
+    (i <= 65280) ? i = i + 10000 : i = 0;
     hue.bridge = bridgeInfo.bridge.ip;
     hue.username = bridgeInfo.bridge.username;
     console.log("Hue : " + i);

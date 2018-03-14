@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
         var password = creds[1];
 
         if((username == cred.auth.username) && (password == cred.auth.password)) {   // Is the username/password correct?
-            sense.clear([135,206,235]);
+            flashBlueLight();
             var promise = twilio.messages.create({
                 from: '+14086178718',
                 to: '+16693331498',
@@ -74,5 +74,10 @@ router.post('/message', function(req, res, next) {
         }
     }
 });
+
+function flashBlueLight() {
+    sense.clear([135,206,235]);
+    setTimeout(flashBlueLight, 5000);
+}
 
 module.exports = router;

@@ -57,7 +57,6 @@ router.post('/', function(req, res, next) {
 router.post('/message', function(req, res, next) {
     var message = req.body.Body;
     if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' || message === 'YES'){
-        flashLight([135,206,235], false);
         sense.clear([255, 0, 0]);
         if(version){
             console.log("Upgrading to version : " + version);
@@ -67,6 +66,7 @@ router.post('/message', function(req, res, next) {
                 console.log('Running update.sh ' + version, data);
                 if(data && data.includes("OK")){
                     console.log("Done testing version : " + version);
+                    flashLight([135,206,235], false);
                     sense.clear();
                     res.sendStatus(200);
                 }else {

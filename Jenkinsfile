@@ -24,14 +24,18 @@ node {
 
     //Test docker image
      stage ('Test') {
-            tagDockerApp = "${ARTDOCKER_REGISTRY}/node-version-pi:${env.BUILD_NUMBER}"
-            if (testApp(tagDockerApp)) {
-                  println "Setting property and promotion"
-                  sh 'docker rmi '+tagDockerApp+' || true'
-             } else {
-                  currentBuild.result = 'UNSTABLE'
+           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: UPGRADE_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+               def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + UPGRADE_SERVER_URL
+               def updatePropStr = curlString +  "/test?version=${env.BUILD_NUMBER}"
+               println "Curl String is " + updatePropStr
+               def stdout = sh(script: updatePropStr, returnStdout: true)
+               if (stdout.contains("OK")) {
+                  println "*** Passed Test" + stdout
+               }else {
+                  println "*** Failed Test" + stdout
                   return
-             }
+               }
+           }
      }
 
     //Scan Build Artifacts in Xray
@@ -71,21 +75,6 @@ node {
       stage ('Distribute') {
             distributeDocker()
        }
-}
-
-def testApp (tag) {
-    docker.image(tag).withRun('-p 3000:3000') {c ->
-        sleep 10
-        //def stdout = sh(script: 'curl "http://localhost:3000/"', returnStdout: true)
-        //if (stdout.contains(" ")) {
-          //  println "*** Passed Test: " + stdout
-            println "*** Passed Test"
-            return true
-       // } else {
-        //    println "*** Failed Test: " + stdout
-         //   return false
-       // }
-    }
 }
 
 //Tag docker image

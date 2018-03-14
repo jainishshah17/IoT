@@ -3,5 +3,5 @@
   "overrideExistingFiles" : "true",
   "async" : "true",
   "targetRepo" : "DIST_REPO",
-  "packagesRepoPaths" : ["PROMOTE_REPO"]
+  "packagesRepoPaths" : ["PROMOTE_REPO/node-version-pi/BUILD_NUMBER"]
 }

@@ -5,6 +5,7 @@ var sense = require("sense-hat-led").sync;
 var cred = require('../cred.json');
 var twilio = require('twilio')(cred.twilio.accountSid, cred.twilio.authToken);
 var version = "latest";
+var flash = false;
 
 /*  Upgrade  */
 router.post('/', function(req, res, next) {
@@ -31,7 +32,8 @@ router.post('/', function(req, res, next) {
         var password = creds[1];
 
         if((username == cred.auth.username) && (password == cred.auth.password)) {   // Is the username/password correct?
-            flashLight([135,206,235], true);
+            flash = true;
+            flashLight();
             var promise = twilio.messages.create({
                 from: '+14086178718',
                 to: '+16693331498',
@@ -57,6 +59,7 @@ router.post('/', function(req, res, next) {
 router.post('/message', function(req, res, next) {
     var message = req.body.Body;
     if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' || message === 'YES'){
+        flash = false;
         sense.clear([255, 0, 0]);
         if(version){
             console.log("Upgrading to version : " + version);
@@ -66,7 +69,6 @@ router.post('/message', function(req, res, next) {
                 console.log('Running update.sh ' + version, data);
                 if(data && data.includes("OK")){
                     console.log("Done testing version : " + version);
-                    flashLight([135,206,235], false);
                     sense.clear();
                     res.sendStatus(200);
                 }else {
@@ -82,9 +84,9 @@ router.post('/message', function(req, res, next) {
     }
 });
 
-function flashLight(color, flash) {
-    sense.clear(color);
-    if(flash == true){
+function flashLight() {
+    sense.clear([135,206,235]);
+    if(flash){
         setTimeout(flashLight, 2000);
     }
 }

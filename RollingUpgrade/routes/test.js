@@ -31,14 +31,15 @@ router.post('/', function(req, res, next) {
             cmd.get(
                 'bash test.sh ' + version,
                 function(err, data, stderr){
-                    if(!stderr){
-                        console.log('Running test.sh ' + version, data);
+                    console.log('Running test.sh ' + version);
+                    if(data && data.includes("OK")){
+                        console.log("Done testing version : " + version);
+                        res.sendStatus(200);
                     }else {
                         console.log('Error: ', stderr);
+                        res.sendStatus(500);
                     }
                 });
-            console.log("Done testing version : " + version);
-            res.sendStatus(200);
         }
         else {
             res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');

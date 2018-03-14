@@ -121,8 +121,8 @@ def updateProperty (property) {
 
 def distributeDocker (DIST_IMAGE) {
     println 'DIST_IMAGE is : ' + DIST_IMAGE
-    sh 'sed -E "s/DIST_REPO/${DIST_REPO}/" distribute.json > dist_out.json'
-    sh 'sed -E "s/PROMOTE_REPO/"$DIST_IMAGE"/" dist_out.json > distribution_out.json'
+    sh "sed -E 's/DIST_REPO/${DIST_REPO}/' distribute.json > dist_out.json"
+    sh "sed -E 's/PROMOTE_REPO/\"$DIST_IMAGE\"/' dist_out.json > distribution_out.json"
     sh 'cat distribution_out.json'
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + SERVER_URL

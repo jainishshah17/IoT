@@ -119,12 +119,13 @@ def updateProperty (property) {
 }
 
 def distributeDocker () {
-    sh "sed -E 's/DIST_REPO/${DIST_REPO}/' distribute.json > dist_out.json"
-    sh "sed -E 's/PROMOTE_REPO/${PROMOTE_REPO}/' dist_out.json > distribution_out.json"
-    sh 'cat distribution_out.json'
+    sh "sed -E 's/DIST_REPO/${DIST_REPO}/' distribute.json > distribute_a.json"
+    sh "sed -E 's/PROMOTE_REPO/${PROMOTE_REPO}/' distribute_a.json > distribute_b.json"
+    sh "sed -E 's/BUILD_NUMBER/${env.BUILD_NUMBER}/' distribute_b.json > distribute_out.json"
+    sh 'cat distribute_out.json'
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + SERVER_URL
-            def updatePropStr = curlString +  "/api/distribute -H 'Content-Type: application/json' -T distribution_out.json"
+            def updatePropStr = curlString +  "/api/distribute -H 'Content-Type: application/json' -T distribute_out.json"
             println "Curl String is " + updatePropStr
             sh updatePropStr
      }

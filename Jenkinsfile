@@ -24,18 +24,18 @@ node {
 
     //Test docker image
      stage ('Test') {
-           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: UPGRADE_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-               def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + UPGRADE_SERVER_URL
-               def updatePropStr = curlString +  "/test?version=${env.BUILD_NUMBER}"
-               println "Curl String is " + updatePropStr
-               def stdout = sh(script: updatePropStr, returnStdout: true)
-               if (stdout.contains("OK")) {
-                  println "*** Passed Test" + stdout
-               }else {
-                  println "*** Failed Test" + stdout
-                  return
-               }
-           }
+//           withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: UPGRADE_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+//               def curlString = "curl -u " + env.USERNAME + ":" + env.PASSWORD + " " + "-X POST " + UPGRADE_SERVER_URL
+//               def updatePropStr = curlString +  "/test?version=${env.BUILD_NUMBER}"
+//               println "Curl String is " + updatePropStr
+//               def stdout = sh(script: updatePropStr, returnStdout: true)
+//               if (stdout.contains("OK")) {
+//                  println "*** Passed Test" + stdout
+//               }else {
+//                  println "*** Failed Test" + stdout
+//                  return
+//               }
+//           }
      }
 
     //Scan Build Artifacts in Xray

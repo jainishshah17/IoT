@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
             'bash test.sh ' + version,
             function(err, data, stderr){
                 if(!stderr){
-                    console.log('Running update.sh ' + version, data);
+                    console.log('Running test.sh ' + version, data);
                 }else {
                     console.log('Error: ', stderr);
                     res.sendStatus(500);

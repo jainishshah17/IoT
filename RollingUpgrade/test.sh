@@ -26,7 +26,7 @@ function rollingUpgradeTest {
 function killTest {
     echo "Killing test container!!!"
     docker rm -f test-pi>> test.log
-     echo "Killed test container!!!"
+    echo "Killed test container!!!"
 }
 
 function testUpdate {

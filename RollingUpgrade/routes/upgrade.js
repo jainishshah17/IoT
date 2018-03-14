@@ -36,7 +36,7 @@ router.post('/', function(req, res, next) {
             flashLight();
             var promise = twilio.messages.create({
                 from: '+14086178718',
-                to: '+16693331498',
+                to: cred.twilio.number,
                 body: 'New version : '+ version +' is released do you want to update your device? Reply with YES or NO'
             });
             promise.then(function(message) {

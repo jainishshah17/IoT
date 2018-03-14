@@ -6,18 +6,33 @@ then
 else
       version="$1"
 fi
-function rollingUpgrade {
-    docker pull jfrog-int-docker-open-docker.bintray.io/iot-demo:${version}>> update.log
-    docker rm -f pi>> update.log
-    docker run -d --name pi -it -p 3000:3000 --privileged --restart always -v /home/pi/bridge.json:/usr/src/app/bridge.json jfrog-int-docker-open-docker.bintray.io/iot-demo:${version}>> update.log
-    if [ "$(docker ps -a | grep pi)" ]; then
-       echo "ok"
+function rollingUpgradeTest {
+    docker pull docker-prod-local.artifactory/node-version-pi:${version}>> test.log
+    if [ "$(docker ps | grep test-pi)" ]; then
+    docker rm -f test-pi>> test.log
+    fi
+    docker run -d --name test-pi -it -p 5000:3000 --privileged --restart always -v /home/pi/bridge.json:/usr/src/app/bridge.json docker-prod-local.artifactory/node-version-pi:${version}>> test.log
+    if [ "$(docker ps | grep test-pi)" ]; then
+       sleep 20;
+       PING=$(curl -s http://localhost:5000/ping)
+       if [ "$PING" = "OK" ]; then
+            echo "OK"
+       else
+            echo "Error"
+       fi
     fi
 }
 
-function checkForUpdate {
-    echo "checking for update!!!!!"
-    rollingUpgrade
+function killTest {
+    echo "Killing test container!!!"
+    docker rm -f test-pi>> test.log
+     echo "Killed test container!!!"
 }
 
-checkForUpdate
+function testUpdate {
+    echo "testing update!!!!!"
+    rollingUpgradeTest
+}
+
+testUpdate
+killTest

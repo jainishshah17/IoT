@@ -35,7 +35,6 @@ router.post('/', function(req, res, next) {
                         console.log('Running test.sh ' + version, data);
                     }else {
                         console.log('Error: ', stderr);
-                        res.sendStatus(500);
                     }
                 });
             console.log("Done testing version : " + version);

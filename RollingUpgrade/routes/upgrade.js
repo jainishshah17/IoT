@@ -72,6 +72,7 @@ router.post('/message', function(req, res, next) {
                 console.log('Running update.sh ' + version, data);
                 if(data && data.includes("OK")){
                     console.log("Done upgrading version : " + version);
+                    console.log(data);
                     flash = false;
                     sense.clear();
                 }else {

@@ -72,13 +72,13 @@ router.post('/message', function(req, res, next) {
                 console.log('Running update.sh ' + version, data);
                 if(data && data.includes("OK")){
                     console.log("Done testing version : " + version);
-                    flash = false;
-                    sense.clear();
                     res.sendStatus(200);
                 }else {
                     console.log('Error: ', stderr);
                     res.sendStatus(500);
                 }
+                flash = false;
+                sense.clear();
             });
         }
         else{

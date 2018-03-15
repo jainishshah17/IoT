@@ -77,9 +77,9 @@ router.post('/message', function(req, res, next) {
                     console.log('Error: ', stderr);
                     res.sendStatus(500);
                 }
-                flash = false;
-                sense.clear();
             });
+            flash = false;
+            sense.clear();
         }
         else{
             console.log("Version is not defined");

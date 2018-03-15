@@ -6,7 +6,7 @@ var cred = require('../cred.json');
 var twilio = require('twilio')(cred.twilio.accountSid, cred.twilio.authToken);
 var version = "latest";
 var flash = false;
-var color = [135,206,235];
+var color;
 
 /*  Upgrade  */
 router.post('/', function(req, res, next) {
@@ -33,6 +33,7 @@ router.post('/', function(req, res, next) {
         var password = creds[1];
 
         if((username == cred.auth.username) && (password == cred.auth.password)) {   // Is the username/password correct?
+            color = [135,206,235];
             flash = true;
             flashLight();
             var toNumber;

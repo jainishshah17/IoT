@@ -12,7 +12,7 @@ var color = [135,206,235];
 router.post('/', function(req, res, next) {
     var auth = req.headers['authorization'];  // auth is in base64(username:password)  so we need to decode the base64
     // console.log("Authorization Header is: ", auth);
-    (req.params.version) ? version = req.params.version : version = "latest";
+    (req.param('version')) ? version = req.param('version') : version = "latest";
 
     if(!auth) {
         res.statusCode = 401;

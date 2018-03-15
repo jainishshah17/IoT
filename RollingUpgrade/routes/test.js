@@ -7,7 +7,7 @@ var cred = require('../cred.json');
 router.post('/', function(req, res, next) {
     var auth = req.headers['authorization'];
     var version;
-    (req.params.version) ? version = req.params.version : version = "latest";
+    (req.param('version')) ? version = req.param('version') : version = "latest";
 
     if(!auth) {
         res.statusCode = 401;

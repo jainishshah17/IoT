@@ -6,6 +6,7 @@ var cred = require('../cred.json');
 var twilio = require('twilio')(cred.twilio.accountSid, cred.twilio.authToken);
 var version = "latest";
 var flash = false;
+var color = [135,206,235];
 
 /*  Upgrade  */
 router.post('/', function(req, res, next) {
@@ -34,9 +35,11 @@ router.post('/', function(req, res, next) {
         if((username == cred.auth.username) && (password == cred.auth.password)) {   // Is the username/password correct?
             flash = true;
             flashLight();
+            var toNumber;
+            (process.env.TO_NUMBER) ? toNumber = process.env.TO_NUMBER : toNumber = cred.twilio.number;
             var promise = twilio.messages.create({
                 from: '+14086178718',
-                to: cred.twilio.number,
+                to: toNumber,
                 body: 'New version : '+ version +' is released do you want to update your device? Reply with YES or NO'
             });
             promise.then(function(message) {
@@ -59,8 +62,7 @@ router.post('/', function(req, res, next) {
 router.post('/message', function(req, res, next) {
     var message = req.body.Body;
     if (message === 'Yes' || message === 'yes' || message === 'y'|| message === 'Y' || message === 'YES'){
-        flash = false;
-        sense.clear([255, 0, 0]);
+        color = [255, 0, 0];
         if(version){
             console.log("Upgrading to version : " + version);
             cmd.get(
@@ -69,6 +71,7 @@ router.post('/message', function(req, res, next) {
                 console.log('Running update.sh ' + version, data);
                 if(data && data.includes("OK")){
                     console.log("Done testing version : " + version);
+                    flash = false;
                     sense.clear();
                     res.sendStatus(200);
                 }else {
@@ -85,7 +88,7 @@ router.post('/message', function(req, res, next) {
 });
 
 function flashLight() {
-    sense.clear([135,206,235]);
+    sense.clear(color);
     if(flash){
         setTimeout(flashLight, 2000);
     }

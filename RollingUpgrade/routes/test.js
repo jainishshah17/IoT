@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var cmd = require('node-cmd');
-var cred = require('../cred.json');
+var cred = require('/home/pi/cred.json');
 
 /*  Test  */
 router.post('/', function(req, res, next) {

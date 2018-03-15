@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var cmd = require('node-cmd');
 var sense = require("sense-hat-led").sync;
-var cred = require('../cred.json');
+var cred = require('/home/pi/cred.json');
 var twilio = require('twilio')(cred.twilio.accountSid, cred.twilio.authToken);
 var version = "latest";
 var flash = false;
@@ -71,15 +71,15 @@ router.post('/message', function(req, res, next) {
             function(err, data, stderr){
                 console.log('Running update.sh ' + version, data);
                 if(data && data.includes("OK")){
-                    console.log("Done testing version : " + version);
-                    res.sendStatus(200);
+                    console.log("Done upgrading version : " + version);
+                    flash = false;
+                    sense.clear();
                 }else {
                     console.log('Error: ', stderr);
                     res.sendStatus(500);
                 }
+                res.sendStatus(200);
             });
-            flash = false;
-            sense.clear();
         }
         else{
             console.log("Version is not defined");

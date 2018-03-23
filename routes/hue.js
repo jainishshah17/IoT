@@ -22,8 +22,8 @@ function ChangeColor() {
                 // sense.clear(i.toString(), 0.1, [124, 252, 0]);
                 sense.clear([124, 252, 0]);
                 // hue.light(light).setState(state).then(console.log).catch(console.error);
-                hue.light(light).setState({effect: "colorloop"});
-                // hue.light(light).setState({alert: "lselect"});
+                // hue.light(light).setState({effect: "colorloop"});
+                hue.light(light).setState({alert: "lselect"});
             }
         }).catch(function (err) {
         console.error(err.stack || err);
